@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Sales · Instagram</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">INSTAGRAM LIVE SALES</p>
+          <h1>Central de vendas ao vivo</h1>
+          <p class="subtitle">Controle o produto exibido, receba comentários e acompanhe cada resposta privada.</p>
+        </div>
+        <div class="top-actions">
+          <div id="meta-badge" class="live-badge"><span></span> Carregando integração</div>
+          <button id="logout" class="text-button" type="button" hidden>Sair</button>
+        </div>
+      </header>
+
+      <section class="metrics" aria-label="Resumo de vendas">
+        <article><small>Leads capturados</small><strong id="metric-total">0</strong></article>
+        <article><small>Na fila</small><strong id="metric-pending">0</strong></article>
+        <article><small>Links enviados</small><strong id="metric-sent">0</strong></article>
+        <article><small>Erros de envio</small><strong id="metric-errors">0</strong></article>
+      </section>
+
+      <section class="grid two">
+        <article class="card active-card">
+          <div class="card-heading"><div><p class="eyebrow">AGORA NA LIVE</p><h2>Produto ativo</h2></div><span id="active-status" class="pill">Carregando</span></div>
+          <div id="active-product" class="active-product"></div>
+        </article>
+
+        <article class="card simulation-card">
+          <div class="card-heading"><div><p class="eyebrow">TESTE OPERACIONAL</p><h2>Simular comentário</h2></div></div>
+          <form id="comment-form">
+            <label>Usuário<input id="comment-username" required value="cliente_da_live" placeholder="nome_do_usuario" /></label>
+            <label>Comentário<input id="comment-text" required value="QUERO" placeholder="Ex.: QUERO" /></label>
+            <label class="check"><input id="force-error" type="checkbox" /> Simular falha no envio da DM</label>
+            <p class="hint">Este teste nunca envia mensagem real no Instagram, mesmo com a Meta conectada.</p>
+            <button class="button primary" type="submit">Processar comentário</button>
+          </form>
+          <p id="simulation-result" class="result" aria-live="polite"></p>
+        </article>
+      </section>
+
+      <section class="grid two lower-grid">
+        <article class="card">
+          <div class="card-heading"><div><p class="eyebrow">CATÁLOGO</p><h2>Produtos da Live</h2></div></div>
+          <div id="products" class="product-list"></div>
+          <details class="add-product">
+            <summary>+ Cadastrar produto</summary>
+            <form id="product-form" class="product-form">
+              <label>Nome<input id="product-name" required placeholder="Ex.: Vestido Luna" /></label>
+              <label>Gatilho<input id="product-trigger" required value="QUERO" placeholder="QUERO" /></label>
+              <label>Link de pagamento<input id="product-url" required type="url" placeholder="https://checkout..." /></label>
+              <label>Preço (R$)<input id="product-price" required type="number" min="0" step="0.01" placeholder="99.90" /></label>
+              <button class="button secondary" type="submit">Salvar produto</button>
+            </form>
+          </details>
+        </article>
+
+        <article class="card history-card">
+          <div class="card-heading"><div><p class="eyebrow">HISTÓRICO</p><h2>Leads e mensagens</h2></div><button id="reset-demo" class="text-button">Restaurar demonstração</button></div>
+          <div id="leads" class="lead-list"></div>
+        </article>
+      </section>
+
+      <section class="card integration-card">
+        <div class="card-heading"><div><p class="eyebrow">INTEGRAÇÃO META</p><h2>Estado da conexão</h2></div><span id="connection-status" class="pill">Carregando</span></div>
+        <div id="integration-details" class="integration-details"></div>
+        <div class="webhook-box"><span>Callback URL</span><code id="webhook-url">—</code><button id="copy-webhook" class="text-button" type="button">Copiar</button></div>
+        <details class="webhook-logs">
+          <summary>Últimos webhooks recebidos</summary>
+          <div id="webhook-logs"></div>
+        </details>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

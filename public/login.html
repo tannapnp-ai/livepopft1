@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrar · Live Sales</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell login-shell">
+      <article class="card login-card">
+        <p class="eyebrow">INSTAGRAM LIVE SALES</p>
+        <h1>Acesso ao painel</h1>
+        <p class="subtitle">Digite a senha definida em <code>DASHBOARD_PASSWORD</code>.</p>
+        <form id="login-form">
+          <label>Senha<input id="login-password" type="password" required autocomplete="current-password" /></label>
+          <button class="button primary" type="submit">Entrar</button>
+        </form>
+        <p id="login-result" class="result" aria-live="polite"></p>
+      </article>
+    </main>
+    <script>
+      const result = document.getElementById("login-result");
+      async function status() {
+        const response = await fetch("/api/auth-status");
+        const body = await response.json();
+        if (!body.required || body.authenticated) window.location.replace("/");
+      }
+      status().catch(() => {});
+      document.getElementById("login-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        result.className = "result";
+        result.textContent = "Validando…";
+        try {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: document.getElementById("login-password").value })
+          });
+          const body = await response.json();
+          if (!response.ok) throw new Error(body.error || "Não foi possível entrar.");
+          window.location.replace("/");
+        } catch (error) {
+          result.className = "result bad";
+          result.textContent = error.message;
+        }
+      });
+    </script>
+  </body>
+</html>
